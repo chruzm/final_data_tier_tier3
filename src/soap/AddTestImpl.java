@@ -7,26 +7,27 @@ import java.util.List;
 @WebService(endpointInterface = "soap.ITest")
 public class AddTestImpl implements ITest {
 
-
+    Tester test2 = new Tester();
+    Tester test1 = new Tester();
+    private int x;
     ArrayList<Tester> tests = new ArrayList<>();
 
     @Override
     public Tester getTester() {
-        return null;
+        return test1;
     }
 
     @Override
     public Tester addTester(Tester tst) {
-        Tester test1 = new Tester();
         test1.setPhoneNo("111");
         test1.setName("test1");
-        Tester test2 = new Tester();
         test1.setPhoneNo("122");
         test1.setName("test22");
         tests.add(test1);
         tests.add(test2);
+        System.out.println("current size of tests list: "+tests.size());
         tests.add(tst);
-        System.out.println(tests.size());
+        System.out.println("current size of tests list: "+tests.size());
 
         return tst;
     }
