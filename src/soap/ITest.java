@@ -11,5 +11,5 @@ public interface ITest {
     @WebMethod
     Tester getTester();
     @WebMethod
-    Tester addTester();
+    Tester addTester(Tester tst);
 }
