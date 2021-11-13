@@ -10,4 +10,6 @@ import javax.jws.soap.SOAPBinding;
 public interface ITest {
     @WebMethod
     Tester getTester();
+    @WebMethod
+    Tester addTester();
 }
