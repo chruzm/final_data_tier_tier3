@@ -31,11 +31,4 @@ public class AddTestImpl implements ITest {
 
         return tst;
     }
-
-
-
-    /*@Override
-    public Tester addTester(Tester tst){
-        return null;
-    }*/
 }
