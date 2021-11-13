@@ -22,6 +22,6 @@ public class TestImpll implements ITest{
 
     @Override
     public Tester addTester(Tester tst){
-        return null;
+        return tst;
     }
 }
