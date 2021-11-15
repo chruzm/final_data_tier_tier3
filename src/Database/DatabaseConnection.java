@@ -1,11 +1,14 @@
 package Database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseConnection {
 
+  private static ArrayList<String> testlist = new ArrayList<>();
   private Connection c = null;
   private Statement stmt = null;
+  public String S;
 
 
   public void connectDB() throws SQLException {
@@ -33,13 +36,27 @@ public class DatabaseConnection {
       while (rs.next()) {
         String name = rs.getString("name");
         String phoneNumba = rs.getString("phoneNo");
-        System.out.println( name + "    " + phoneNumba);
+        //System.out.println( name + "    " + phoneNumba);
+        System.out.println("NAME: "+""+name+", "+"PHONE: "+""+phoneNumba);
+        testlist.add("name: "+name+", phoneNo: "+phoneNumba);
       }
       System.out.println();
     }
     catch(SQLException e){
       System.out.println("SQL exception occured" + e);
     }
+    //System.out.println(testlist);
+    //return testlist;
+  }
+
+  public String GetTests(){
+    //System.out.println(testlist.size());
+    //testlist.add("ass");
+    //testlist.add("ass");
+    //testlist.add("ass");
+    //testlist.add("ass");
+    return testlist.get(5);
   }
 }
+
 

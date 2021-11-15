@@ -3,6 +3,8 @@ package soap;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 //Service Endpoint Interface
 @WebService
@@ -12,4 +14,6 @@ public interface ITest {
     Tester getTester();
     @WebMethod
     Tester addTester(Tester tst);
+    @WebMethod
+    String getTestList();
 }

@@ -3,13 +3,14 @@ package soap;
 
 import javax.jws.WebService;
 import javax.swing.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebService(endpointInterface = "soap.ITest")
 public class TestImpll implements ITest{
 
     private ITest it;
-    List<Tester> Tests;
 
     @Override
     public Tester getTester() {
@@ -23,5 +24,10 @@ public class TestImpll implements ITest{
     @Override
     public Tester addTester(Tester tst){
         return tst;
+    }
+
+    @Override
+    public String getTestList() {
+        return "";
     }
 }

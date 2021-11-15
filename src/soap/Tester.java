@@ -23,6 +23,13 @@ public class Tester {
         this.name = name;
     }*/
 
+    public Tester newTester(String phoneNo, String name){
+        Tester newtest = new Tester();
+        newtest.setPhoneNo(phoneNo);
+        newtest.setName(name);
+        return newtest;
+    }
+
     public void setPhoneNo( String phoneNo )
     {
         this.phoneNo = phoneNo;

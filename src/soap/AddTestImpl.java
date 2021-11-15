@@ -31,4 +31,9 @@ public class AddTestImpl implements ITest {
 
         return tst;
     }
+
+    @Override
+    public String getTestList() {
+        return "";
+    }
 }
