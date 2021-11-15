@@ -25,9 +25,9 @@ public class AddTestImpl implements ITest {
         test1.setName("test22");
         tests.add(test1);
         tests.add(test2);
-        System.out.println("current size of tests list: "+tests.size());
+        System.out.println("current size of tests list: "+tests.size()+"///"+tests.toString());
         tests.add(tst);
-        System.out.println("current size of tests list: "+tests.size());
+        System.out.println("current size of tests list: "+tests.size()+"///"+tests.toString());
 
         return tst;
     }
