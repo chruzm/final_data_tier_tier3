@@ -27,7 +27,6 @@ public class GetTestListImpl implements ITest  {
     @Override
     public String getTestList()  {
         //System.out.println(testlist.size());
-        ass.add(db.GetTests());
-        return ass.toString();
+        return db.GetTests();
     }
 }

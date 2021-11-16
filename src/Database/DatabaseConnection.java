@@ -38,7 +38,7 @@ public class DatabaseConnection {
         String phoneNumba = rs.getString("phoneNo");
         //System.out.println( name + "    " + phoneNumba);
         System.out.println("NAME: "+""+name+", "+"PHONE: "+""+phoneNumba);
-        testlist.add("name: "+name+", phoneNo: "+phoneNumba);
+        testlist.add("\n"+"name: "+name+", phoneNo: "+phoneNumba);
       }
       System.out.println();
     }
@@ -55,7 +55,12 @@ public class DatabaseConnection {
     //testlist.add("ass");
     //testlist.add("ass");
     //testlist.add("ass");
-    return testlist.get(5);
+    /*String S = "Tests: \n\"";
+    int x;
+    for (x = 0; x < testlist.size(); x++){
+     S += testlist.get(x);
+    }*/
+    return testlist.toString();
   }
 }
 
