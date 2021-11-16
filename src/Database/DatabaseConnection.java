@@ -37,8 +37,8 @@ public class DatabaseConnection {
         String name = rs.getString("name");
         String phoneNumba = rs.getString("phoneNo");
         //System.out.println( name + "    " + phoneNumba);
-        System.out.println("NAME: "+""+name+", "+"PHONE: "+""+phoneNumba);
-        testlist.add("\n"+"name: "+name+", phoneNo: "+phoneNumba);
+        System.out.println(phoneNumba+", "+name);
+        testlist.add("\n"+phoneNumba+", "+name);
       }
       System.out.println();
     }
