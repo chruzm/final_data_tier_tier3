@@ -1,6 +1,7 @@
 package soap;
 
 import Database.DatabaseConnection;
+import models.Tester;
 
 import javax.jws.WebService;
 import java.sql.SQLException;

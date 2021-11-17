@@ -1,11 +1,7 @@
-package soap;
+package models;
 
 
 import com.google.gson.Gson;
-
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 
 
 public class Tester {
