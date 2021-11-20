@@ -1,14 +1,19 @@
 package Database;
 
+import models.MenuObject;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseConnection {
 
+  private MenuObject m = new MenuObject();
   private static ArrayList<String> testlist = new ArrayList<>();
+  private static ArrayList<MenuObject> menu = new ArrayList<>();
   private Connection c = null;
   private Statement stmt = null;
   public String S;
+  private int x;
 
 
   public void connectDB() throws SQLException {
@@ -37,10 +42,10 @@ public class DatabaseConnection {
         String name = rs.getString("name");
         String phoneNumba = rs.getString("phoneNo");
         //System.out.println( name + "    " + phoneNumba);
-        System.out.println(phoneNumba+", "+name);
+        //System.out.println(phoneNumba+", "+name);
         testlist.add("\n"+phoneNumba+", "+name);
       }
-      System.out.println();
+      System.out.println(testlist.size()+"<---- number of elements in getNames(test) metode");
     }
     catch(SQLException e){
       System.out.println("SQL exception occured" + e);
@@ -49,7 +54,7 @@ public class DatabaseConnection {
     //return testlist;
   }
 
-  public String GetTests(){
+  public String getTests(){
     //System.out.println(testlist.size());
     //testlist.add("ass");
     //testlist.add("ass");
@@ -61,6 +66,40 @@ public class DatabaseConnection {
      S += testlist.get(x);
     }*/
     return testlist.toString();
+  }
+
+  public void getMenu() throws SQLException {
+    String SQL = "SELECT * FROM Sep3 . menu";
+
+    Statement stmt = c.createStatement();
+    ResultSet rs = stmt.executeQuery(SQL);
+
+    try {
+      while (rs.next()) {
+        int number = rs.getInt("number");
+        int price = rs.getInt("price");
+        String food = rs.getString("food");
+        //System.out.println( name + "    " + phoneNumba);
+        System.out.println(number+".  "+price+"DKK, "+food);
+        //m.newmenuobject(price,food);
+        menu.add(m.newmenuobject(number,price,food));
+        //System.out.println(menu.get(0).getNumber());
+      }
+      System.out.println(menu.get(2).getNumber());
+    }
+    catch(SQLException e){
+      System.out.println("SQL exception occured" + e);
+    }
+    //System.out.println(testlist);
+    //return testlist;
+  }
+
+  public MenuObject sendMenu(int a){
+    System.out.println("---");
+    for (int y = 0; y < menu.size(); y++)
+    System.out.println(menu.get(y).getFood());
+
+    return menu.get(a);
   }
 }
 

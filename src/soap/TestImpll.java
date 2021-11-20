@@ -1,6 +1,7 @@
 package soap;
 
 
+import models.MenuObject;
 import models.Tester;
 
 import javax.jws.WebService;
@@ -31,5 +32,10 @@ public class TestImpll implements ITest{
     @Override
     public String getTestList() {
         return "";
+    }
+
+    @Override
+    public MenuObject getMenu(int a) {
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package soap;
 
+import models.MenuObject;
 import models.Tester;
 
 import javax.jws.WebMethod;
@@ -18,4 +19,7 @@ public interface ITest {
     Tester addTester(Tester tst);
     @WebMethod
     String getTestList();
+    @WebMethod
+    MenuObject getMenu(int a);
+
 }

@@ -5,34 +5,28 @@ import models.MenuObject;
 import models.Tester;
 
 import javax.jws.WebService;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 @WebService(endpointInterface = "soap.ITest")
-public class GetTestListImpl implements ITest  {
+public class GetMenuImpl  implements ITest {
 
     private DatabaseConnection db = new DatabaseConnection();
-
     @Override
     public Tester getTester() {
-        Tester dummytest = new Tester();
-        return dummytest;
+        return null;
     }
 
     @Override
     public Tester addTester(Tester tst) {
-        Tester dummytest = new Tester();
-        return dummytest;
+        return null;
     }
 
     @Override
-    public String getTestList()  {
-        //System.out.println(testlist.size());
-        return db.getTests();
+    public String getTestList() {
+        return null;
     }
 
     @Override
     public MenuObject getMenu(int a) {
-        return null;
+        return db.sendMenu(a);
     }
 }
