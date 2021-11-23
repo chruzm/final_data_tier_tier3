@@ -1,6 +1,7 @@
 package main;
 
 import Database.DatabaseConnection;
+import models.OrderObject;
 import models.Tester;
 import soap.AddTestImpl;
 import soap.GetMenuImpl;
@@ -15,14 +16,19 @@ public class RunServer {
     public static void main(String[] args) throws SQLException {
         DatabaseConnection db = new DatabaseConnection();
 
-        Tester ts = new Tester();
-        ts.setName("testtiiiiii");
-        ts.setPhoneNo("t90");
+        //Tester ts = new Tester();
+        //ts.setName("testtiiiiii");
+        //ts.setPhoneNo("t90");
+        OrderObject order = new OrderObject();
+        order.setOrdernumber(0000);
+        order.setItems(12345);
+        order.setPrice(222222222);
         db.connectDB();
         db.getNames();
         db.getTests();
         db.getMenu();
-        System.out.println(db.sendMenu(0).getFood());
+        db.storeOrder(order);
+        //System.out.println(db.sendMenu(0).getFood());
         //at.addTester(ts);
 
         //Endpoint.publish("http://localhost:9999/ws/tst", new TestImpll());

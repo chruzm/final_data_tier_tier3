@@ -1,6 +1,7 @@
 package Database;
 
 import models.MenuObject;
+import models.OrderObject;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class DatabaseConnection {
   private int x;
 
 
-  public void connectDB() throws SQLException {
+  public Connection connectDB() throws SQLException {
     c = null;
     try {
       Class.forName("org.postgresql.Driver");
@@ -29,6 +30,7 @@ public class DatabaseConnection {
     } catch (ClassNotFoundException | SQLException e) {
       e.printStackTrace();
     }
+    return c;
   }
 
   public void getNames() throws SQLException {
@@ -43,18 +45,17 @@ public class DatabaseConnection {
         String phoneNumba = rs.getString("phoneNo");
         //System.out.println( name + "    " + phoneNumba);
         //System.out.println(phoneNumba+", "+name);
-        testlist.add("\n"+phoneNumba+", "+name);
+        testlist.add("\n" + phoneNumba + ", " + name);
       }
-      System.out.println(testlist.size()+"<---- number of elements in getNames(test) metode");
-    }
-    catch(SQLException e){
+      System.out.println(testlist.size() + "<---- number of elements in getNames(test) metode");
+    } catch (SQLException e) {
       System.out.println("SQL exception occured" + e);
     }
     //System.out.println(testlist);
     //return testlist;
   }
 
-  public String getTests(){
+  public String getTests() {
     //System.out.println(testlist.size());
     //testlist.add("ass");
     //testlist.add("ass");
@@ -80,27 +81,60 @@ public class DatabaseConnection {
         int price = rs.getInt("price");
         String food = rs.getString("food");
         //System.out.println( name + "    " + phoneNumba);
-        System.out.println(number+".  "+price+"DKK, "+food);
+        System.out.println(number + ".  " + price + "DKK, " + food);
         //m.newmenuobject(price,food);
-        menu.add(m.newmenuobject(number,price,food));
+        menu.add(m.newmenuobject(number, price, food));
         //System.out.println(menu.get(0).getNumber());
       }
       System.out.println(menu.get(2).getNumber());
-    }
-    catch(SQLException e){
+    } catch (SQLException e) {
       System.out.println("SQL exception occured" + e);
     }
     //System.out.println(testlist);
     //return testlist;
   }
 
-  public MenuObject sendMenu(int a){
+  public MenuObject sendMenu(int a) {
     System.out.println("---");
     for (int y = 0; y < menu.size(); y++)
-    System.out.println(menu.get(y).getFood());
+      System.out.println(menu.get(y).getFood());
 
     return menu.get(a);
   }
-}
+
+
+  public void storeOrder(OrderObject ordo) throws SQLException {
+    //ArrayList<OrderObject> orderlist = new ArrayList<>();
+    //orderlist.add(ordo);
+
+    String SQL = "INSERT INTO Sep3 . orders(ordernumber,price,foods) VALUES (";
+
+    // åben forbindelse
+    try(Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
+            "postgres", "mxn88scrhder883");
+        Statement stmt = conn.createStatement();
+    ){
+      // Execute a query
+      System.out.println("tilføjer ordrer nummer #"+ordo.getOrderNumber());
+
+      int x = ordo.getOrderNumber();
+      int y = ordo.getPrice();
+      int s = ordo.getItems();
+
+      System.out.println(SQL+x+","+y+","+s+")");
+      stmt.executeQuery(SQL+x+","+y+","+s+")");
+      }
+    catch (SQLException ex){
+      System.out.println(ex);
+    }
+    }
+  }
+
+
+
+
+
+
+
 
 
