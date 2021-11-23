@@ -2,6 +2,7 @@ package soap;
 
 import Database.DatabaseConnection;
 import models.MenuObject;
+import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
@@ -28,5 +29,10 @@ public class GetMenuImpl  implements ITest {
     @Override
     public MenuObject getMenu(int a) {
         return db.sendMenu(a);
+    }
+
+    @Override
+    public OrderObject addOrder(OrderObject o) {
+        return null;
     }
 }

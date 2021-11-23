@@ -7,16 +7,18 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseConnection {
-
   private MenuObject m = new MenuObject();
   private static ArrayList<String> testlist = new ArrayList<>();
   private static ArrayList<MenuObject> menu = new ArrayList<>();
+  private static ArrayList<OrderObject> orders = new ArrayList<>();
+  private OrderObject o = new OrderObject();
   private Connection c = null;
   private Statement stmt = null;
   public String S;
   private int x;
 
 
+  //connect database virker
   public Connection connectDB() throws SQLException {
     c = null;
     try {
@@ -33,6 +35,7 @@ public class DatabaseConnection {
     return c;
   }
 
+  //****************TESTS
   public void getNames() throws SQLException {
     String SQL = "SELECT * FROM Sep3 . test";
 
@@ -54,7 +57,6 @@ public class DatabaseConnection {
     //System.out.println(testlist);
     //return testlist;
   }
-
   public String getTests() {
     //System.out.println(testlist.size());
     //testlist.add("ass");
@@ -68,7 +70,10 @@ public class DatabaseConnection {
     }*/
     return testlist.toString();
   }
+  //****************TESTS
 
+
+  //getmenu virker
   public void getMenu() throws SQLException {
     String SQL = "SELECT * FROM Sep3 . menu";
 
@@ -93,7 +98,7 @@ public class DatabaseConnection {
     //System.out.println(testlist);
     //return testlist;
   }
-
+  //sendmenu virker
   public MenuObject sendMenu(int a) {
     System.out.println("---");
     for (int y = 0; y < menu.size(); y++)
@@ -102,11 +107,17 @@ public class DatabaseConnection {
     return menu.get(a);
   }
 
+  public void getOrder(OrderObject ordo){
+    orders.add(ordo);
+  }
 
-  public void storeOrder(OrderObject ordo) throws SQLException {
+  public synchronized void storeOrder() throws SQLException {
     //ArrayList<OrderObject> orderlist = new ArrayList<>();
     //orderlist.add(ordo);
-
+    //o.setOrdernumber(0);
+    //o.setPrice(0);
+    //o.setItems(0);
+    //orders.add(o);
     String SQL = "INSERT INTO Sep3 . orders(ordernumber,price,foods) VALUES (";
 
     // åben forbindelse
@@ -114,21 +125,23 @@ public class DatabaseConnection {
             "postgres", "mxn88scrhder883");
         Statement stmt = conn.createStatement();
     ){
-      // Execute a query
-      System.out.println("tilføjer ordrer nummer #"+ordo.getOrderNumber());
+      for (int a = 0; x < orders.size(); x++){
+        // Execute a query
+        System.out.println("tilføjer ordrer nummer #"+orders.get(a).getOrderNumber());
+        int x = orders.get(a).getOrderNumber();
+        int y = orders.get(a).getPrice();
+        int s = orders.get(a).getItems();
 
-      int x = ordo.getOrderNumber();
-      int y = ordo.getPrice();
-      int s = ordo.getItems();
-
-      System.out.println(SQL+x+","+y+","+s+")");
-      stmt.executeQuery(SQL+x+","+y+","+s+")");
+        System.out.println(SQL+x+","+y+","+s+")");
+        stmt.executeQuery(SQL+x+","+y+","+s+")");
+        orders.clear();
       }
+    }
     catch (SQLException ex){
       System.out.println(ex);
     }
     }
-  }
+}
 
 
 

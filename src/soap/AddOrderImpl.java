@@ -1,38 +1,29 @@
 package soap;
 
-
+import Database.DatabaseConnection;
 import models.MenuObject;
 import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
-import javax.swing.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebService(endpointInterface = "soap.ITest")
-public class TestImpll implements ITest{
-
-    private ITest it;
-
+public class AddOrderImpl implements ITest{
+    private DatabaseConnection db = new DatabaseConnection();
     @Override
     public Tester getTester() {
-        Tester tst = new Tester();
-        tst.setName("hello from tier3");
-        tst.setPhoneNo("909090");
-
-        return tst;
+        return null;
     }
 
     @Override
-    public Tester addTester(Tester tst){
-        return tst;
+    public Tester addTester(Tester tst) {
+        return null;
     }
 
     @Override
     public String getTestList() {
-        return "";
+        return null;
     }
 
     @Override
@@ -42,6 +33,13 @@ public class TestImpll implements ITest{
 
     @Override
     public OrderObject addOrder(OrderObject o) {
-        return null;
+        System.out.println("adding order");
+        db.getOrder(o);
+        try {
+            db.storeOrder();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 }

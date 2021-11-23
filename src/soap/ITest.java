@@ -1,6 +1,7 @@
 package soap;
 
 import models.MenuObject;
+import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebMethod;
@@ -21,5 +22,7 @@ public interface ITest {
     String getTestList();
     @WebMethod
     MenuObject getMenu(int a);
+    @WebMethod
+    OrderObject addOrder(OrderObject o);
 
 }

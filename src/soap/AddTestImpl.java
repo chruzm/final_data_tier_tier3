@@ -1,6 +1,7 @@
 package soap;
 
 import models.MenuObject;
+import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
@@ -39,6 +40,11 @@ public class AddTestImpl implements ITest {
 
     @Override
     public MenuObject getMenu(int a) {
+        return null;
+    }
+
+    @Override
+    public OrderObject addOrder(OrderObject o) {
         return null;
     }
 }
