@@ -26,7 +26,9 @@ public class RunServer {
         //Endpoint.publish("http://localhost:9999/ws/tst", new TestImpll());
         //Endpoint.publish("http://localhost:9999/ws/tstadd", new AddTestImpl());
         //Endpoint.publish("http://localhost:9999/ws/getlist", new GetTestListImpl());
+        //getmenu fra databasen virker, sendes til tier2
         Endpoint.publish("http://localhost:9999/ws/getmenu", new GetMenuImpl());
+        //tilføj order til databasen virker, modtages fra tier2
         Endpoint.publish("http://localhost:9999/ws/addorder", new AddOrderImpl());
         //System.out.println("soap service skabt i adresse: http://localhost:9999/ws/tst");
         //System.out.println("soap service skabt i adresse: http://localhost:9999/ws/tstadd");

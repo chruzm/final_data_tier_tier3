@@ -7,6 +7,7 @@ import models.Tester;
 
 import javax.jws.WebService;
 import java.sql.SQLException;
+import java.util.Random;
 
 @WebService(endpointInterface = "soap.ITest")
 public class AddOrderImpl implements ITest{
@@ -33,6 +34,8 @@ public class AddOrderImpl implements ITest{
 
     @Override
     public OrderObject addOrder(OrderObject o) {
+        Random number = new Random();
+        o.setOrdernumber(number.nextInt(10000)+1);
         System.out.println("adding order");
         db.getOrder(o);
         try {
