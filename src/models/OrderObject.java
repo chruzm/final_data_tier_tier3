@@ -6,16 +6,18 @@ public class OrderObject {
     private static final Gson gson = new Gson();
     private int ordernumber;
     private int price;
-    private int items;
+    private String items;
+    private String adr;
 
     public OrderObject(){
     }
 
-    public OrderObject newOrder(int ordern, int price, int items){
+    public OrderObject newOrder(int ordern, int price, String items, String adr){
         OrderObject neworder = new OrderObject();
         neworder.setOrdernumber(ordernumber);
         neworder.setPrice(price);
         neworder.setItems(items);
+        neworder.seAdr(adr);
         return neworder;
     }
 
@@ -27,9 +29,13 @@ public class OrderObject {
     {
         this.price = price;
     }
-    public void setItems( int items )
+    public void setItems( String items )
     {
         this.items = items;
+    }
+    public void seAdr( String adr )
+    {
+        this.adr = adr;
     }
     public int getPrice()
     {
@@ -39,9 +45,13 @@ public class OrderObject {
     {
         return ordernumber;
     }
-    public int getItems()
+    public String getItems()
     {
         return items;
+    }
+    public String getAdr()
+    {
+        return adr;
     }
     public String toJson()
     {

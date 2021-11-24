@@ -43,6 +43,7 @@ public class AddOrderImpl implements ITest{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(o.getOrderNumber());
         return o;
     }
 }

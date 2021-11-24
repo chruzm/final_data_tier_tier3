@@ -3,8 +3,11 @@ package Database;
 import models.MenuObject;
 import models.OrderObject;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 public class DatabaseConnection {
   private MenuObject m = new MenuObject();
@@ -114,11 +117,12 @@ public class DatabaseConnection {
   public synchronized void storeOrder() throws SQLException {
     //ArrayList<OrderObject> orderlist = new ArrayList<>();
     //orderlist.add(ordo);
-    //o.setOrdernumber(0);
-    //o.setPrice(0);
-    //o.setItems(0);
-    //orders.add(o);
-    String SQL = "INSERT INTO Sep3 . orders(ordernumber,price,foods) VALUES (";
+    o.setOrdernumber(11);
+    o.setPrice(11);
+    o.setItems("asasassdfghgsfdddddddddfgdhfgghhhhhhhhhhhhhhhhdfffffffffffdgggggggggggg");
+    o.seAdr("testeradressadfssssssssssdghhffdgsdfffffffdfdfffffffffffffffffdffffffffffffffffffd");
+    orders.add(o);
+    String SQL = "INSERT INTO Sep3 . orders(ordernumber,price,foods,adr) VALUES (";
 
     // åben forbindelse
     try(Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
@@ -130,10 +134,11 @@ public class DatabaseConnection {
         System.out.println("tilføjer ordrer nummer #"+orders.get(a).getOrderNumber());
         int x = orders.get(a).getOrderNumber();
         int y = orders.get(a).getPrice();
-        int s = orders.get(a).getItems();
+        String s = orders.get(a).getItems();
+        String adr = orders.get(a).getAdr();
 
-        System.out.println(SQL+x+","+y+","+s+")");
-        stmt.executeQuery(SQL+x+","+y+","+s+")");
+        System.out.println(SQL+x+","+y+","+convertStringToBinary(s)+","+convertStringToBinary(adr)+")");
+        stmt.executeQuery(SQL+x+","+y+","+convertStringToBinary(s)+","+convertStringToBinary(adr)+")");
         orders.clear();
       }
     }
@@ -141,7 +146,24 @@ public class DatabaseConnection {
       System.out.println(ex);
     }
     }
+
+    //converterer "foods"
+  public BigInteger convertStringToBinary(String input) {
+    StringBuilder result = new StringBuilder();
+    char[] chars = input.toCharArray();
+    String s = "";
+    System.out.println("encoding: "+input);
+    for (char aChar : chars) {
+      s+=Integer.toBinaryString(aChar);
+    }
+    System.out.println(s);
+    BigInteger number = new BigInteger(s);
+    System.out.println("bigint value of /"+input+"/ converted to binary: ");
+    System.out.println(number);
+    return number;
+    }
 }
+
 
 
 

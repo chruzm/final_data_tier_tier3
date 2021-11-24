@@ -20,6 +20,7 @@ public class RunServer {
         db.getTests();
         db.getMenu();
         db.storeOrder();
+        //db.convertStringToBinary("asasasasas");
         //System.out.println(db.sendMenu(0).getFood());
         //at.addTester(ts);
 
