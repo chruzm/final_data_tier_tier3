@@ -117,12 +117,12 @@ public class DatabaseConnection {
   public synchronized void storeOrder() throws SQLException {
     //ArrayList<OrderObject> orderlist = new ArrayList<>();
     //orderlist.add(ordo);
-    o.setOrdernumber(11);
-    o.setPrice(11);
-    o.setItems("asasassdfghgsfdddddddddfgdhfgghhhhhhhhhhhhhhhhdfffffffffffdgggggggggggg");
-    o.seAdr("testeradressadfssssssssssdghhffdgsdfffffffdfdfffffffffffffffffdffffffffffffffffffd");
+    o.setOrdernumber(101998877);
+    o.setPrice(101010101);
+    o.setItems("testeritemeatdatcoochie");
+    o.seAdr("testeradressbigbooty");
     orders.add(o);
-    String SQL = "INSERT INTO Sep3 . orders(ordernumber,price,foods,adr) VALUES (";
+    String SQL = "INSERT INTO orders(ordernumber,price,foods,adr) VALUES (";
 
     // åben forbindelse
     try(Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
