@@ -75,7 +75,6 @@ public class DatabaseConnection {
   }
   //****************TESTS
 
-
   //getmenu virker
   public void getMenu() throws SQLException {
     String SQL = "SELECT * FROM Sep3 . menu";
@@ -110,18 +109,20 @@ public class DatabaseConnection {
     return menu.get(a);
   }
 
+  //virker
   public void getOrder(OrderObject ordo){
     orders.add(ordo);
   }
 
+  //virker
   public synchronized void storeOrder() throws SQLException {
     //ArrayList<OrderObject> orderlist = new ArrayList<>();
     //orderlist.add(ordo);
-    o.setOrdernumber(101998877);
-    o.setPrice(101010101);
-    o.setItems("testeritemeatdatcoochie");
-    o.seAdr("testeradressbigbooty");
-    orders.add(o);
+    //o.setOrdernumber(101998877);
+    //o.setPrice(101010101);
+    //o.setItems("testeritemeatdatcoochie");
+    //o.seAdr("testeradressbigbooty");
+    //orders.add(o);
     String SQL = "INSERT INTO orders(ordernumber,price,foods,adr) VALUES (";
 
     // åben forbindelse
@@ -137,8 +138,8 @@ public class DatabaseConnection {
         String s = orders.get(a).getItems();
         String adr = orders.get(a).getAdr();
 
-        System.out.println(SQL+x+","+y+","+convertStringToBinary(s)+","+convertStringToBinary(adr)+")");
-        stmt.executeQuery(SQL+x+","+y+","+convertStringToBinary(s)+","+convertStringToBinary(adr)+")");
+        System.out.println(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
+        stmt.executeQuery(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
         orders.clear();
       }
     }
@@ -147,12 +148,15 @@ public class DatabaseConnection {
     }
     }
 
-    //converterer "foods"
-  public BigInteger convertStringToBinary(String input) {
-    StringBuilder result = new StringBuilder();
-    char[] chars = input.toCharArray();
+    //converterer "foods", virker
+  public synchronized BigInteger convertFToBinary(String input) {
+    //StringBuilder result = new StringBuilder();
     String s = "";
+    for (int x = 0; x < orders.size(); x++){
+      input = orders.get(x).getItems();
+    }
     System.out.println("encoding: "+input);
+    char[] chars = input.toCharArray();
     for (char aChar : chars) {
       s+=Integer.toBinaryString(aChar);
     }
@@ -162,6 +166,25 @@ public class DatabaseConnection {
     System.out.println(number);
     return number;
     }
+
+  //converterer "adr", virker
+  public synchronized BigInteger convertAToBinary(String input) {
+    //StringBuilder result = new StringBuilder();
+    String s = "";
+    for (int x = 0; x < orders.size(); x++){
+      input = orders.get(x).getAdr();
+    }
+    System.out.println("encoding: "+input);
+    char[] chars = input.toCharArray();
+    for (char aChar : chars) {
+      s+=Integer.toBinaryString(aChar);
+    }
+    System.out.println(s);
+    BigInteger number = new BigInteger(s);
+    System.out.println("bigint value of /"+input+"/ converted to binary: ");
+    System.out.println(number);
+    return number;
+  }
 }
 
 

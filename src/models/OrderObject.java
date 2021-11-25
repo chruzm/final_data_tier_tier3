@@ -17,10 +17,9 @@ public class OrderObject {
         neworder.setOrdernumber(ordernumber);
         neworder.setPrice(price);
         neworder.setItems(items);
-        neworder.seAdr(adr);
+        neworder.setAdr(adr);
         return neworder;
     }
-
     public void setOrdernumber( int ordern )
     {
         this.ordernumber = ordern;
@@ -33,7 +32,7 @@ public class OrderObject {
     {
         this.items = items;
     }
-    public void seAdr( String adr )
+    public void setAdr( String adr )
     {
         this.adr = adr;
     }
