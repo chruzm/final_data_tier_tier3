@@ -33,7 +33,7 @@ public class RunServer {
         Endpoint.publish("http://localhost:9990/ws/addorder", new AddOrderImpl());
         //System.out.println("soap service skabt i adresse: http://localhost:9999/ws/tst");
         //System.out.println("soap service skabt i adresse: http://localhost:9999/ws/tstadd");
-        System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getlist");
+        //System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getlist");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getmenu");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/addorder");
     }
