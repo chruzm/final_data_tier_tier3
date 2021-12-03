@@ -4,10 +4,12 @@ import models.MenuObject;
 import models.OrderObject;
 
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DatabaseConnection {
   private MenuObject m = new MenuObject();
@@ -184,6 +186,60 @@ public class DatabaseConnection {
     System.out.println("bigint value of /"+input+"/ converted to binary: ");
     System.out.println(number);
     return number;
+  }
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //converter string til binær
+  public synchronized String convertStringToBinary(String input) {
+
+    StringBuilder result = new StringBuilder();
+    char[] chars = input.toCharArray();
+    for (char aChar : chars) {
+      result.append(
+              String.format("%8s", Integer.toBinaryString(aChar))   // char -> int, auto-cast
+                      .replaceAll(" ", "0")                         // zero pads
+      );
+    }
+    return result.toString();
+  }
+
+  //laver binær om til pretty binary (sæts af 8 bits)
+  public synchronized String prettyBinary(String binary, int blockSize, String separator) {
+    List<String> result = new ArrayList<>();
+    int index = 0;
+    while (index < binary.length()) {
+      result.add(binary.substring(index, Math.min(index + blockSize, binary.length())));
+      index += blockSize;
+    }
+
+    return result.stream().collect(Collectors.joining(separator));
+  }
+
+  //converterer binary til text (virker kun når bianry er delt i sæts af 8 bits
+  public synchronized String binToText(String x){
+
+    String raw = Arrays.stream(x.split(" "))
+            .map(binary -> Integer.parseInt(binary, 2))
+            .map(Character::toString)
+            .collect(Collectors.joining()); // cut the space
+
+    System.out.println(raw);
+    return raw;
+  }
+
+  //converterer binary til BigInt
+  public synchronized BigInteger binToBigInt(String s){
+    String empty = "";
+    char[] chars = s.toCharArray();
+    for (char aChar : chars) {
+      empty+=Integer.toBinaryString(aChar);
+    }
+    BigInteger bignumber = new BigInteger(empty);
+    System.out.println(empty);
+    return bignumber;
   }
 }
 
