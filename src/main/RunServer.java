@@ -16,9 +16,10 @@ public class RunServer {
         //ts.setName("testtiiiiii");
         //ts.setPhoneNo("t90");
         db.connectDB();
-        db.getNames();
+        //db.getNames();
         db.getMenu();
         db.storeOrder();
+        db.getOrder();
         //db.convertStringToBinary("asasasasas");
         //System.out.println(db.sendMenu(0).getFood());
         //at.addTester(ts);
@@ -35,9 +36,9 @@ public class RunServer {
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getmenu");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/addorder");
 
-        db.convertStringToBinary("nothing better than groping wide hips and thick booty");
-        System.out.println(db.prettyBinary("1: "+db.convertStringToBinary("nothing better than groping wide hips and thick booty"), 8, " "));
-        System.out.println(db.binToBigInt(db.prettyBinary(db.convertStringToBinary("nothing better than groping wide hips and thick booty"), 8, " ")));
-        System.out.println("1: "+db.binToText(db.prettyBinary(db.convertStringToBinary("nothing better than groping wide hips and thick booty"), 8, " ")));
+        db.convertStringToBinary("nothoty");
+        System.out.println(db.prettyBinary("1: "+db.convertStringToBinary("nothoty"), 8, " "));
+        System.out.println(db.binToBigInt(db.prettyBinary(db.convertStringToBinary("nothoty"), 8, " ")));
+        System.out.println("1: "+db.binToText(db.prettyBinary(db.convertStringToBinary("nothoty"), 8, " ")));
     }
 }

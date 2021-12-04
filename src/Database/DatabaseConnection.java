@@ -3,6 +3,7 @@ package Database;
 import models.MenuObject;
 import models.OrderObject;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class DatabaseConnection {
   private Statement stmt = null;
   public String S;
   private int x;
-
 
   //connect database virker
   public Connection connectDB() throws SQLException {
@@ -148,26 +148,48 @@ public class DatabaseConnection {
     catch (SQLException ex){
       System.out.println(ex);
     }
-    }
+  }
 
-    //converterer "foods", virker
+
+  public synchronized void getOrder() throws SQLException {
+    String SQL = "SELECT * FROM Sep3 . orders";
+
+    Statement stmt = c.createStatement();
+    ResultSet rs = stmt.executeQuery(SQL);
+
+    try {
+      while (rs.next()) {
+        int number = rs.getInt("ordernumber");
+        Integer price = rs.getInt("price");
+        //BigDecimal foods = rs.getBigDecimal("foods");
+        //BigDecimal address = rs.getBigDecimal("adr");
+
+        System.out.println("#"+number+", price: "+price);
+      }
+    } catch (SQLException throwables) {
+      System.out.println(throwables);
+    }
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //converterer "foods", virker
   public synchronized BigInteger convertFToBinary(String input) {
-    //StringBuilder result = new StringBuilder();
-    String s = "";
-    for (int x = 0; x < orders.size(); x++){
-      input = orders.get(x).getItems();
-    }
-    System.out.println("encoding: "+input);
-    char[] chars = input.toCharArray();
-    for (char aChar : chars) {
-      s+=Integer.toBinaryString(aChar);
-    }
-    System.out.println(s);
-    BigInteger number = new BigInteger(s);
-    System.out.println("bigint value of /"+input+"/ converted to binary: ");
-    System.out.println(number);
-    return number;
-    }
+  //StringBuilder result = new StringBuilder();
+  String s = "";
+  for (int x = 0; x < orders.size(); x++){
+    input = orders.get(x).getItems();
+  }
+  System.out.println("encoding: "+input);
+  char[] chars = input.toCharArray();
+  for (char aChar : chars) {
+    s+=Integer.toBinaryString(aChar);
+  }
+  System.out.println(s);
+  BigInteger number = new BigInteger(s);
+  System.out.println("bigint value of /"+input+"/ converted to binary: ");
+  System.out.println(number);
+  return number;
+}
 
   //converterer "adr", virker
   public synchronized BigInteger convertAToBinary(String input) {
@@ -188,10 +210,6 @@ public class DatabaseConnection {
     return number;
   }
 
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //converter string til binær
   public synchronized String convertStringToBinary(String input) {
 
