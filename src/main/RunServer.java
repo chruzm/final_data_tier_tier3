@@ -5,8 +5,11 @@ import models.OrderObject;
 import models.Tester;
 import soap.*;
 
+import javax.sound.midi.SysexMessage;
 import javax.xml.ws.Endpoint;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 
 public class RunServer {
@@ -34,5 +37,10 @@ public class RunServer {
         //System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getlist");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getmenu");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/addorder");
+
+        String s = "ass blum blam blam blum blum blam blam";
+        System.out.println(s.getBytes(StandardCharsets.UTF_8));
+        String string = new String(s.getBytes(StandardCharsets.UTF_8), 0);
+        System.out.println(string);
     }
 }
