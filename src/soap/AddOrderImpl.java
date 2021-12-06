@@ -39,11 +39,7 @@ public class AddOrderImpl implements ITest{
         System.out.println("adding order");
         //db.getOrder() tilføjer OrderObject O til listen af orders i databaseconnection class
         db.getOrder(o);
-        try {
-            db.storeOrder();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.storeOrder();
         System.out.println(o.getOrderNumber());
         return o;
     }

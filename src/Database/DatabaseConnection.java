@@ -3,6 +3,7 @@ package Database;
 import models.MenuObject;
 import models.OrderObject;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -38,42 +39,6 @@ public class DatabaseConnection {
     return c;
   }
 
-  //****************TESTS
-  public void getNames() throws SQLException {
-    String SQL = "SELECT * FROM Sep3 . test";
-
-    Statement stmt = c.createStatement();
-    ResultSet rs = stmt.executeQuery(SQL);
-
-    try {
-      while (rs.next()) {
-        String name = rs.getString("name");
-        String phoneNumba = rs.getString("phoneNo");
-        //System.out.println( name + "    " + phoneNumba);
-        //System.out.println(phoneNumba+", "+name);
-        testlist.add("\n" + phoneNumba + ", " + name);
-      }
-      System.out.println(testlist.size() + "<---- number of elements in getNames(test) metode");
-    } catch (SQLException e) {
-      System.out.println("SQL exception occured" + e);
-    }
-    //System.out.println(testlist);
-    //return testlist;
-  }
-  public String getTests() {
-    //System.out.println(testlist.size());
-    //testlist.add("ass");
-    //testlist.add("ass");
-    //testlist.add("ass");
-    //testlist.add("ass");
-    /*String S = "Tests: \n\"";
-    int x;
-    for (x = 0; x < testlist.size(); x++){
-     S += testlist.get(x);
-    }*/
-    return testlist.toString();
-  }
-  //****************TESTS
 
   //getmenu virker
   public void getMenu() throws SQLException {
@@ -100,6 +65,7 @@ public class DatabaseConnection {
     //System.out.println(testlist);
     //return testlist;
   }
+
   //sendmenu virker
   public MenuObject sendMenu(int a) {
     System.out.println("---");
@@ -110,82 +76,64 @@ public class DatabaseConnection {
   }
 
   //virker
-  public void getOrder(OrderObject ordo){
+  public void getOrder(OrderObject ordo) {
     orders.add(ordo);
   }
 
-  //virker
-  public synchronized void storeOrder() throws SQLException {
-    //ArrayList<OrderObject> orderlist = new ArrayList<>();
-    //orderlist.add(ordo);
-    //o.setOrdernumber(101998877);
-    //o.setPrice(101010101);
-    //o.setItems("testeritemeatdatcoochie");
-    //o.seAdr("testeradressbigbooty");
-    //orders.add(o);
-    String SQL = "INSERT INTO orders(ordernumber,price,foods,adr) VALUES (";
+  //works
+  public synchronized void storeOrder() {
+    String SQL_INSERT = "INSERT INTO orders (ordernumber, price, foods, adr) VALUES (?,?,?,?)";
 
-    // åben forbindelse
-    try(Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres",
-            "postgres", "mxn88scrhder883");
-        Statement stmt = conn.createStatement();
-    ){
-      for (int a = 0; x < orders.size(); x++){
-        // Execute a query
-        System.out.println("tilføjer ordrer nummer #"+orders.get(a).getOrderNumber());
-        int x = orders.get(a).getOrderNumber();
-        int y = orders.get(a).getPrice();
-        String s = orders.get(a).getItems();
-        String adr = orders.get(a).getAdr();
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/postgres", "postgres", "mxn88scrhder883");
+         PreparedStatement preparedStatement = conn.prepareStatement(SQL_INSERT)) {
 
-        System.out.println(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
-        stmt.executeQuery(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
-        orders.clear();
+      for (int a = 0; a < orders.size(); a++) {
+        preparedStatement.setInt(1, orders.get(a).getOrderNumber());
+        preparedStatement.setInt(2, orders.get(a).getPrice());
+        preparedStatement.setBytes(3, orders.get(a).getItems().getBytes());
+        preparedStatement.setBytes(4, orders.get(a).getAdr().getBytes());
+
+
+        int row = preparedStatement.executeUpdate();
+
+        // rows affected
+        System.out.println(row); //1
+      }
+    } catch (SQLException e) {
+      System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+
+  }
+
+  //CONNECTED*****************************************************
+  public synchronized void retrieveOrders() throws SQLException {
+    String SQL = "SELECT * FROM orders";
+
+    try (Connection conn = connectDB();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(SQL)) {
+      // display actor information
+      displayActor(rs);
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+  }
+    private void displayActor(ResultSet rs) throws SQLException {
+      while (rs.next()) {
+        System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
+                + "Price: "+rs.getInt("price") + "\t"
+                + "items(encoded): "+rs.getString("foods")+ "\t"
+                + "adress(encoded): "+rs.getBytes("adr")
+        );
       }
     }
-    catch (SQLException ex){
-      System.out.println(ex);
-    }
-    }
-
-    //converterer "foods", virker
-  public synchronized BigInteger convertFToBinary(String input) {
-    //StringBuilder result = new StringBuilder();
-    String s = "";
-    for (int x = 0; x < orders.size(); x++){
-      input = orders.get(x).getItems();
-    }
-    System.out.println("encoding: "+input);
-    char[] chars = input.toCharArray();
-    for (char aChar : chars) {
-      s+=Integer.toBinaryString(aChar);
-    }
-    System.out.println(s);
-    BigInteger number = new BigInteger(s);
-    System.out.println("bigint value of /"+input+"/ converted to binary: ");
-    System.out.println(number);
-    return number;
-    }
-
-  //converterer "adr", virker
-  public synchronized BigInteger convertAToBinary(String input) {
-    //StringBuilder result = new StringBuilder();
-    String s = "";
-    for (int x = 0; x < orders.size(); x++){
-      input = orders.get(x).getAdr();
-    }
-    System.out.println("encoding: "+input);
-    char[] chars = input.toCharArray();
-    for (char aChar : chars) {
-      s+=Integer.toBinaryString(aChar);
-    }
-    System.out.println(s);
-    BigInteger number = new BigInteger(s);
-    System.out.println("bigint value of /"+input+"/ converted to binary: ");
-    System.out.println(number);
-    return number;
+    //CONNECTED******************************************************
   }
-}
+
 
 
 

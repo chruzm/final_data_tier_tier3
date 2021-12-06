@@ -16,8 +16,6 @@ public class RunServer {
         //ts.setName("testtiiiiii");
         //ts.setPhoneNo("t90");
         db.connectDB();
-        db.getNames();
-        db.getTests();
         db.getMenu();
         db.storeOrder();
         //db.convertStringToBinary("asasasasas");
@@ -36,5 +34,6 @@ public class RunServer {
         //System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getlist");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/getmenu");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/addorder");
+        db.retrieveOrders();
     }
 }

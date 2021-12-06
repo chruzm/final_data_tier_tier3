@@ -29,7 +29,7 @@ public class GetTestListImpl implements ITest  {
     @Override
     public String getTestList()  {
         //System.out.println(testlist.size());
-        return db.getTests();
+        return "whatever";
     }
 
     @Override
