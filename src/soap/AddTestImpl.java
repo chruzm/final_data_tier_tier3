@@ -6,7 +6,6 @@ import models.Tester;
 
 import javax.jws.WebService;
 import java.util.ArrayList;
-import java.util.List;
 
 @WebService(endpointInterface = "soap.ITest")
 public class AddTestImpl implements ITest {

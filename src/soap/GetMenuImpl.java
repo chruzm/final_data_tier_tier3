@@ -6,6 +6,7 @@ import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
+import java.util.ArrayList;
 
 @WebService(endpointInterface = "soap.ITest")
 public class GetMenuImpl  implements ITest {

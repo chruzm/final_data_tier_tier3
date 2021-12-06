@@ -6,7 +6,7 @@ import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Random;
 
 @WebService(endpointInterface = "soap.ITest")

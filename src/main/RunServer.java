@@ -38,7 +38,7 @@ public class RunServer {
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/addorder");
         System.out.println("soap service skabt i adresse: http://localhost:9990/ws/orders");
         db.retrieveOrders();
-        db.sendOrder(5).getPrice();
+        db.sendOrder(2);
 
     }
 }

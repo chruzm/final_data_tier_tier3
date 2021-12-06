@@ -6,6 +6,7 @@ import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
+import java.util.ArrayList;
 
 @WebService(endpointInterface = "soap.ITest")
 public class SendOrderImpl implements ITest {
@@ -37,6 +38,7 @@ public class SendOrderImpl implements ITest {
 
     @Override
     public OrderObject sendOrder(int a) {
+        System.out.println(db.sendOrder(2).getOrderNumber());
         return db.sendOrder(a);
     }
 }

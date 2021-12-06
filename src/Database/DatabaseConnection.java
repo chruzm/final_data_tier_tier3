@@ -136,8 +136,8 @@ public class DatabaseConnection {
         otochef.setAdr(convertByte(rs.getBytes("adr")));
         OTOCHEF.add(otochef);
       }
-      System.out.println(OTOCHEF.size());
-      System.out.println(OTOCHEF.get(5).getAdr());
+      //System.out.println(OTOCHEF.size());
+      //System.out.println(OTOCHEF.get(5).getAdr());
     }
 
     public String convertByte(byte[] bytes){
@@ -150,9 +150,11 @@ public class DatabaseConnection {
   //sendmenu virker
   public OrderObject sendOrder(int a) {
     System.out.println("---");
-    for (int y = 0; y < OTOCHEF.size(); y++){}
-      //System.out.println(OTOCHEF.get(y).getItems()+" adr: "+OTOCHEF.get(y).getAdr());
+    for (int y = 0; y < OTOCHEF.size(); y++){
+      //System.out.println(OTOCHEF.get(y).getOrderNumber());
+    }
 
+    System.out.println(OTOCHEF);
     return OTOCHEF.get(a);
   }
   }
