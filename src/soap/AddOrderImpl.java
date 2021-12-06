@@ -43,4 +43,7 @@ public class AddOrderImpl implements ITest{
         System.out.println(o.getOrderNumber());
         return o;
     }
+
+    @Override
+    public OrderObject sendOrder(int a){return null;};
 }

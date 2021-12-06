@@ -44,4 +44,7 @@ public class TestImpll implements ITest{
     public OrderObject addOrder(OrderObject o) {
         return null;
     }
+
+    @Override
+    public OrderObject sendOrder(int a){return null;};
 }

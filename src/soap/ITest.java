@@ -24,5 +24,7 @@ public interface ITest {
     MenuObject getMenu(int a);
     @WebMethod
     OrderObject addOrder(OrderObject o);
+    @WebMethod
+    OrderObject sendOrder(int a);
 
 }

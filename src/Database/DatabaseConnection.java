@@ -15,6 +15,7 @@ public class DatabaseConnection {
   private static ArrayList<String> testlist = new ArrayList<>();
   private static ArrayList<MenuObject> menu = new ArrayList<>();
   private static ArrayList<OrderObject> orders = new ArrayList<>();
+  private static ArrayList<OrderObject> OTOCHEF = new ArrayList<>();
   private OrderObject o = new OrderObject();
   private Connection c = null;
   private Statement stmt = null;
@@ -108,7 +109,6 @@ public class DatabaseConnection {
 
 
   }
-
   //CONNECTED*****************************************************
   public synchronized void retrieveOrders() throws SQLException {
     String SQL = "SELECT * FROM orders";
@@ -117,21 +117,44 @@ public class DatabaseConnection {
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(SQL)) {
       // display actor information
-      displayActor(rs);
+      displayO(rs);
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
     }
   }
-    private void displayActor(ResultSet rs) throws SQLException {
+    private void displayO(ResultSet rs) throws SQLException {
       while (rs.next()) {
-        System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
+        OrderObject otochef = new OrderObject();
+        /*System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
                 + "Price: "+rs.getInt("price") + "\t"
-                + "items(encoded): "+rs.getString("foods")+ "\t"
+                + "items(encoded): "+rs.getBytes("foods")+ "\t"
                 + "adress(encoded): "+rs.getBytes("adr")
-        );
+        );*/
+        otochef.setOrdernumber(rs.getInt("ordernumber"));
+        otochef.setPrice(rs.getInt("price"));
+        otochef.setItems(convertByte(rs.getBytes("foods")));
+        otochef.setAdr(convertByte(rs.getBytes("adr")));
+        OTOCHEF.add(otochef);
       }
+      System.out.println(OTOCHEF.size());
+      System.out.println(OTOCHEF.get(5).getAdr());
+    }
+
+    public String convertByte(byte[] bytes){
+      String s = new String(bytes, StandardCharsets.UTF_8);
+      //System.out.println("Output : " + s);
+      return s;
     }
     //CONNECTED******************************************************
+
+  //sendmenu virker
+  public OrderObject sendOrder(int a) {
+    System.out.println("---");
+    for (int y = 0; y < OTOCHEF.size(); y++){}
+      //System.out.println(OTOCHEF.get(y).getItems()+" adr: "+OTOCHEF.get(y).getAdr());
+
+    return OTOCHEF.get(a);
+  }
   }
 
 

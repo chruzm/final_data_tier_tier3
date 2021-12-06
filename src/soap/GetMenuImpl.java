@@ -35,4 +35,7 @@ public class GetMenuImpl  implements ITest {
     public OrderObject addOrder(OrderObject o) {
         return null;
     }
+
+    @Override
+    public OrderObject sendOrder(int a){return null;};
 }

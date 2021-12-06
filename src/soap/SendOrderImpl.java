@@ -6,30 +6,23 @@ import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 @WebService(endpointInterface = "soap.ITest")
-public class GetTestListImpl implements ITest  {
-
-    private DatabaseConnection db = new DatabaseConnection();
-
+public class SendOrderImpl implements ITest {
+    DatabaseConnection db = new DatabaseConnection();
     @Override
     public Tester getTester() {
-        Tester dummytest = new Tester();
-        return dummytest;
+        return null;
     }
 
     @Override
     public Tester addTester(Tester tst) {
-        Tester dummytest = new Tester();
-        return dummytest;
+        return null;
     }
 
     @Override
-    public String getTestList()  {
-        //System.out.println(testlist.size());
-        return "whatever";
+    public String getTestList() {
+        return null;
     }
 
     @Override
@@ -43,5 +36,7 @@ public class GetTestListImpl implements ITest  {
     }
 
     @Override
-    public OrderObject sendOrder(int a){return null;};
+    public OrderObject sendOrder(int a) {
+        return db.sendOrder(a);
+    }
 }
