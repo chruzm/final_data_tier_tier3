@@ -38,7 +38,7 @@ public class AddOrderImpl implements ITest{
         o.setOrdernumber(number.nextInt(100000)+1);
         System.out.println("adding order");
         //db.getOrder() tilføjer OrderObject O til listen af orders i databaseconnection class
-        db.getOrder(o);
+        db.getOrderList(o);
         try {
             db.storeOrder();
         } catch (SQLException e) {

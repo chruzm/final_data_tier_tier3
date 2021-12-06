@@ -5,23 +5,24 @@ import models.OrderObject;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DatabaseConnection {
   private MenuObject m = new MenuObject();
   private static ArrayList<String> testlist = new ArrayList<>();
   private static ArrayList<MenuObject> menu = new ArrayList<>();
   private static ArrayList<OrderObject> orders = new ArrayList<>();
+  private static ArrayList<OrderObject> retrievedOrders = new ArrayList<>();
+  private static ArrayList<byte[]> byteholder = new ArrayList<>();
   private OrderObject o = new OrderObject();
   private Connection c = null;
   private Statement stmt = null;
   public String S;
   private int x;
+
 
   //connect database virker
   public Connection connectDB() throws SQLException {
@@ -40,6 +41,7 @@ public class DatabaseConnection {
     return c;
   }
 
+  /*
   //****************TESTS
   public void getNames() throws SQLException {
     String SQL = "SELECT * FROM Sep3 . test";
@@ -72,10 +74,11 @@ public class DatabaseConnection {
     int x;
     for (x = 0; x < testlist.size(); x++){
      S += testlist.get(x);
-    }*/
+    }
     return testlist.toString();
   }
   //****************TESTS
+  */
 
   //getmenu virker
   public void getMenu() throws SQLException {
@@ -111,8 +114,8 @@ public class DatabaseConnection {
     return menu.get(a);
   }
 
-  //virker
-  public void getOrder(OrderObject ordo){
+  //virker, bruges i en metode i en soap metode, RØR IKKE!!!
+  public void getOrderList(OrderObject ordo) {
     orders.add(ordo);
   }
 
@@ -120,6 +123,11 @@ public class DatabaseConnection {
   public synchronized void storeOrder() throws SQLException {
     //ArrayList<OrderObject> orderlist = new ArrayList<>();
     //orderlist.add(ordo);
+    //o.setOrdernumber(101998877);
+    //o.setPrice(101010101);
+    //o.setItems("testeritemeatdatcoochie");
+    //o.seAdr("testeradressbigbooty");
+    //orders.add(o);
     String SQL = "INSERT INTO orders(ordernumber,price,foods,adr) VALUES (";
 
     // åben forbindelse
@@ -135,8 +143,8 @@ public class DatabaseConnection {
         String s = orders.get(a).getItems();
         String adr = orders.get(a).getAdr();
 
-        System.out.println(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
-        stmt.executeQuery(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
+        System.out.println(SQL+x+","+y+","+getBytesFBG(s)+","+getBytesABG(adr)+")");
+        stmt.executeQuery(SQL+x+","+y+","+getBytesFBG(s)+","+getBytesABG(adr)+")");
         orders.clear();
       }
     }
@@ -145,114 +153,65 @@ public class DatabaseConnection {
     }
   }
 
+  public synchronized void retrieveOrders() throws SQLException {
+    String SQL = "SELECT * FROM orders";
 
-  public synchronized void getOrder() throws SQLException {
-    String SQL = "SELECT * FROM Sep3 . orders";
-
-    Statement stmt = c.createStatement();
-    ResultSet rs = stmt.executeQuery(SQL);
-
-    try {
-      while (rs.next()) {
-        int number = rs.getInt("ordernumber");
-        Integer price = rs.getInt("price");
-        //BigDecimal foods = rs.getBigDecimal("foods");
-        //BigDecimal address = rs.getBigDecimal("adr");
-
-        System.out.println("#"+number+", price: "+price);
-      }
-    } catch (SQLException throwables) {
-      System.out.println(throwables);
+    try (Connection conn = connectDB();
+         Statement stmt = conn.createStatement();
+         ResultSet rs = stmt.executeQuery(SQL)) {
+      // display actor information
+      displayActor(rs);
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
     }
   }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //converterer "foods", virker
-  public synchronized BigInteger convertFToBinary(String input) {
-  //StringBuilder result = new StringBuilder();
-  String s = "";
-  for (int x = 0; x < orders.size(); x++){
-    input = orders.get(x).getItems();
+  private void displayActor(ResultSet rs) throws SQLException {
+    while (rs.next()) {
+      System.out.println(rs.getInt("ordernumber") + "\t"
+              + rs.getInt("price") + "\t"
+              + rs.getBigDecimal("foods"));
+    }
   }
-  System.out.println("encoding: "+input);
-  char[] chars = input.toCharArray();
-  for (char aChar : chars) {
-    s+=Integer.toBinaryString(aChar);
-  }
-  System.out.println(s);
-  BigInteger number = new BigInteger(s);
-  System.out.println("bigint value of /"+input+"/ converted to binary: ");
-  System.out.println(number);
-  return number;
-}
 
-  //converterer "adr", virker
-  public synchronized BigInteger convertAToBinary(String input) {
-    //StringBuilder result = new StringBuilder();
-    String s = "";
+  public synchronized BigInteger getBytesFBG(String s){
+    //converts string to bytes
+    String string = "";
     for (int x = 0; x < orders.size(); x++){
-      input = orders.get(x).getAdr();
+      s = orders.get(x).getItems();
     }
-    System.out.println("encoding: "+input);
-    char[] chars = input.toCharArray();
-    for (char aChar : chars) {
-      s+=Integer.toBinaryString(aChar);
+    byte[] array = s.getBytes(StandardCharsets.UTF_8);
+    byteholder.add(array);
+    System.out.println(s+" konverteret til bytes: "+array);
+    for (byte b : array){
+      string+=b;
     }
-    System.out.println(s);
-    BigInteger number = new BigInteger(s);
-    System.out.println("bigint value of /"+input+"/ converted to binary: ");
-    System.out.println(number);
-    return number;
+    BigInteger BI = new BigInteger(string);
+    //System.out.println(BI);
+    return BI;
   }
 
-  //converter string til binær
-  public synchronized String convertStringToBinary(String input) {
-
-    StringBuilder result = new StringBuilder();
-    char[] chars = input.toCharArray();
-    for (char aChar : chars) {
-      result.append(
-              String.format("%8s", Integer.toBinaryString(aChar))   // char -> int, auto-cast
-                      .replaceAll(" ", "0")                         // zero pads
-      );
+  public synchronized BigInteger getBytesABG(String s){
+    //converts string to bytes
+    String string = "";
+    for (int x = 0; x < orders.size(); x++){
+      s = orders.get(x).getAdr();
     }
-    return result.toString();
+    byte[] array = s.getBytes(StandardCharsets.UTF_8);
+    byteholder.add(array);
+    System.out.println(s+" konverteret til bytes: "+array);
+    for (byte b : array){
+      string+=b;
+    }
+    BigInteger BI = new BigInteger(string);
+    //System.out.println(BI);
+    return BI;
   }
 
-  //laver binær om til pretty binary (sæts af 8 bits)
-  public synchronized String prettyBinary(String binary, int blockSize, String separator) {
-    List<String> result = new ArrayList<>();
-    int index = 0;
-    while (index < binary.length()) {
-      result.add(binary.substring(index, Math.min(index + blockSize, binary.length())));
-      index += blockSize;
-    }
-
-    return result.stream().collect(Collectors.joining(separator));
-  }
-
-  //converterer binary til text (virker kun når bianry er delt i sæts af 8 bits
-  public synchronized String binToText(String x){
-
-    String raw = Arrays.stream(x.split(" "))
-            .map(binary -> Integer.parseInt(binary, 2))
-            .map(Character::toString)
-            .collect(Collectors.joining()); // cut the space
-
-    System.out.println(raw);
-    return raw;
-  }
-
-  //converterer binary til BigInt
-  public synchronized BigInteger binToBigInt(String s){
-    String empty = "";
-    char[] chars = s.toCharArray();
-    for (char aChar : chars) {
-      empty+=Integer.toBinaryString(aChar);
-    }
-    BigInteger bignumber = new BigInteger(empty);
-    System.out.println(empty);
-    return bignumber;
+  public synchronized void reConvert(byte [] b){
+    int x = 0;
+    String string = new String(b, 0);
+    System.out.println(string);
   }
 }
 
