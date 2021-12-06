@@ -3,7 +3,6 @@ package Database;
 import models.MenuObject;
 import models.OrderObject;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
@@ -15,8 +14,6 @@ public class DatabaseConnection {
   private static ArrayList<String> testlist = new ArrayList<>();
   private static ArrayList<MenuObject> menu = new ArrayList<>();
   private static ArrayList<OrderObject> orders = new ArrayList<>();
-  private static ArrayList<OrderObject> retrievedOrders = new ArrayList<>();
-  private static ArrayList<byte[]> byteholder = new ArrayList<>();
   private OrderObject o = new OrderObject();
   private Connection c = null;
   private Statement stmt = null;
@@ -41,7 +38,6 @@ public class DatabaseConnection {
     return c;
   }
 
-  /*
   //****************TESTS
   public void getNames() throws SQLException {
     String SQL = "SELECT * FROM Sep3 . test";
@@ -74,11 +70,10 @@ public class DatabaseConnection {
     int x;
     for (x = 0; x < testlist.size(); x++){
      S += testlist.get(x);
-    }
+    }*/
     return testlist.toString();
   }
   //****************TESTS
-  */
 
   //getmenu virker
   public void getMenu() throws SQLException {
@@ -114,8 +109,8 @@ public class DatabaseConnection {
     return menu.get(a);
   }
 
-  //virker, bruges i en metode i en soap metode, RØR IKKE!!!
-  public void getOrderList(OrderObject ordo) {
+  //virker
+  public void getOrder(OrderObject ordo){
     orders.add(ordo);
   }
 
@@ -143,75 +138,52 @@ public class DatabaseConnection {
         String s = orders.get(a).getItems();
         String adr = orders.get(a).getAdr();
 
-        System.out.println(SQL+x+","+y+","+getBytesFBG(s)+","+getBytesABG(adr)+")");
-        stmt.executeQuery(SQL+x+","+y+","+getBytesFBG(s)+","+getBytesABG(adr)+")");
+        System.out.println(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
+        stmt.executeQuery(SQL+x+","+y+","+convertFToBinary(s)+","+convertAToBinary(adr)+")");
         orders.clear();
       }
     }
     catch (SQLException ex){
       System.out.println(ex);
     }
-  }
-
-  public synchronized void retrieveOrders() throws SQLException {
-    String SQL = "SELECT * FROM orders";
-
-    try (Connection conn = connectDB();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(SQL)) {
-      // display actor information
-      displayActor(rs);
-    } catch (SQLException ex) {
-      System.out.println(ex.getMessage());
     }
-  }
 
-  private void displayActor(ResultSet rs) throws SQLException {
-    while (rs.next()) {
-      System.out.println(rs.getInt("ordernumber") + "\t"
-              + rs.getInt("price") + "\t"
-              + rs.getBigDecimal("foods"));
-    }
-  }
-
-  public synchronized BigInteger getBytesFBG(String s){
-    //converts string to bytes
-    String string = "";
+    //converterer "foods", virker
+  public synchronized BigInteger convertFToBinary(String input) {
+    //StringBuilder result = new StringBuilder();
+    String s = "";
     for (int x = 0; x < orders.size(); x++){
-      s = orders.get(x).getItems();
+      input = orders.get(x).getItems();
     }
-    byte[] array = s.getBytes(StandardCharsets.UTF_8);
-    byteholder.add(array);
-    System.out.println(s+" konverteret til bytes: "+array);
-    for (byte b : array){
-      string+=b;
+    System.out.println("encoding: "+input);
+    char[] chars = input.toCharArray();
+    for (char aChar : chars) {
+      s+=Integer.toBinaryString(aChar);
     }
-    BigInteger BI = new BigInteger(string);
-    //System.out.println(BI);
-    return BI;
-  }
+    System.out.println(s);
+    BigInteger number = new BigInteger(s);
+    System.out.println("bigint value of /"+input+"/ converted to binary: ");
+    System.out.println(number);
+    return number;
+    }
 
-  public synchronized BigInteger getBytesABG(String s){
-    //converts string to bytes
-    String string = "";
+  //converterer "adr", virker
+  public synchronized BigInteger convertAToBinary(String input) {
+    //StringBuilder result = new StringBuilder();
+    String s = "";
     for (int x = 0; x < orders.size(); x++){
-      s = orders.get(x).getAdr();
+      input = orders.get(x).getAdr();
     }
-    byte[] array = s.getBytes(StandardCharsets.UTF_8);
-    byteholder.add(array);
-    System.out.println(s+" konverteret til bytes: "+array);
-    for (byte b : array){
-      string+=b;
+    System.out.println("encoding: "+input);
+    char[] chars = input.toCharArray();
+    for (char aChar : chars) {
+      s+=Integer.toBinaryString(aChar);
     }
-    BigInteger BI = new BigInteger(string);
-    //System.out.println(BI);
-    return BI;
-  }
-
-  public synchronized void reConvert(byte [] b){
-    int x = 0;
-    String string = new String(b, 0);
-    System.out.println(string);
+    System.out.println(s);
+    BigInteger number = new BigInteger(s);
+    System.out.println("bigint value of /"+input+"/ converted to binary: ");
+    System.out.println(number);
+    return number;
   }
 }
 
