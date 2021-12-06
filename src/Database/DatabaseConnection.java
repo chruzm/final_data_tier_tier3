@@ -120,11 +120,6 @@ public class DatabaseConnection {
   public synchronized void storeOrder() throws SQLException {
     //ArrayList<OrderObject> orderlist = new ArrayList<>();
     //orderlist.add(ordo);
-    //o.setOrdernumber(101998877);
-    //o.setPrice(101010101);
-    //o.setItems("testeritemeatdatcoochie");
-    //o.seAdr("testeradressbigbooty");
-    //orders.add(o);
     String SQL = "INSERT INTO orders(ordernumber,price,foods,adr) VALUES (";
 
     // åben forbindelse
