@@ -25,5 +25,7 @@ public interface ITest {
     OrderObject addOrder(OrderObject o);
     @WebMethod
     OrderObject sendOrder(int a);
+    @WebMethod
+    int sendAmount();
 
 }

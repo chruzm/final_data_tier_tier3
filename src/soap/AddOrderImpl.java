@@ -6,6 +6,7 @@ import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -41,9 +42,21 @@ public class AddOrderImpl implements ITest{
         db.getOrder(o);
         db.storeOrder();
         System.out.println(o.getOrderNumber());
+        try {
+            db.retrieveOrders();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return o;
     }
 
     @Override
-    public OrderObject sendOrder(int a){return null;};
+    public OrderObject sendOrder(int a){return null;}
+
+    @Override
+    public int sendAmount() {
+        return 0;
+    }
+
+    ;
 }

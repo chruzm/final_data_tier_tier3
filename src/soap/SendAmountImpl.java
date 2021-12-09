@@ -6,11 +6,10 @@ import models.OrderObject;
 import models.Tester;
 
 import javax.jws.WebService;
-import java.util.ArrayList;
 
 @WebService(endpointInterface = "soap.ITest")
-public class SendOrderImpl implements ITest {
-    DatabaseConnection db = new DatabaseConnection();
+public class SendAmountImpl implements ITest {
+    private DatabaseConnection db = new DatabaseConnection();
     @Override
     public Tester getTester() {
         return null;
@@ -38,12 +37,11 @@ public class SendOrderImpl implements ITest {
 
     @Override
     public OrderObject sendOrder(int a) {
-        System.out.println(db.sendOrder(2).getOrderNumber());
-        return db.sendOrder(a);
+        return null;
     }
 
     @Override
     public int sendAmount() {
-        return 0;
+        return db.sendAmount();
     }
 }

@@ -77,7 +77,9 @@ public class DatabaseConnection {
   }
 
   //virker
-  public void getOrder(OrderObject ordo) {
+  public void getOrder(OrderObject ordo)
+  {
+    orders.clear();
     orders.add(ordo);
   }
 
@@ -109,10 +111,12 @@ public class DatabaseConnection {
 
 
   }
+
   //CONNECTED*****************************************************
   public synchronized void retrieveOrders() throws SQLException {
     String SQL = "SELECT * FROM orders";
-
+    //for at se om der bliver tilføjet i listen når klient tilføjkr order
+    System.out.println("db.retrieveorders() triggerd af ny order fra kunde: size "+OTOCHEF.size());
     try (Connection conn = connectDB();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(SQL)) {
@@ -123,6 +127,7 @@ public class DatabaseConnection {
     }
   }
     private void displayO(ResultSet rs) throws SQLException {
+    OTOCHEF.clear();
       while (rs.next()) {
         OrderObject otochef = new OrderObject();
         /*System.out.println("ordernumber: "+rs.getInt("ordernumber") + "\t"
@@ -139,24 +144,33 @@ public class DatabaseConnection {
       //System.out.println(OTOCHEF.size());
       //System.out.println(OTOCHEF.get(5).getAdr());
     }
+    //CONNECTED******************************************************
 
-    public String convertByte(byte[] bytes){
+
+  public String convertByte(byte[] bytes){
       String s = new String(bytes, StandardCharsets.UTF_8);
       //System.out.println("Output : " + s);
       return s;
     }
-    //CONNECTED******************************************************
 
-  //sendmenu virker
+  //sendorder virker nu
   public OrderObject sendOrder(int a) {
     System.out.println("---");
     for (int y = 0; y < OTOCHEF.size(); y++){
-      //System.out.println(OTOCHEF.get(y).getOrderNumber());
+      System.out.println(OTOCHEF.get(y).getAdr());
     }
 
-    System.out.println(OTOCHEF);
+    //System.out.println("size of list holding orders2chef: "+OTOCHEF.size());
     return OTOCHEF.get(a);
   }
+
+  //
+  public int sendAmount() {
+    System.out.println("size of list holding orders2chef: "+OTOCHEF.size());
+    return OTOCHEF.size();
+  }
+
+
   }
 
 

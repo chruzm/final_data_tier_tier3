@@ -43,5 +43,12 @@ public class TestImpll implements ITest{
     }
 
     @Override
-    public OrderObject sendOrder(int a){return null;};
+    public OrderObject sendOrder(int a){return null;}
+
+    @Override
+    public int sendAmount() {
+        return 0;
+    }
+
+    ;
 }
