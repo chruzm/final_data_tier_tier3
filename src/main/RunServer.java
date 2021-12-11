@@ -1,8 +1,6 @@
 package main;
 
 import Database.DatabaseConnection;
-import models.OrderObject;
-import models.Tester;
 import soap.*;
 
 import javax.xml.ws.Endpoint;

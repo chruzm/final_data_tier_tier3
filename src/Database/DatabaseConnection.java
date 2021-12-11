@@ -24,7 +24,7 @@ public class DatabaseConnection {
 
 
   //connect database virker
-  public Connection connectDB() throws SQLException {
+  public synchronized Connection connectDB() throws SQLException {
     c = null;
     try {
       Class.forName("org.postgresql.Driver");
@@ -42,7 +42,7 @@ public class DatabaseConnection {
 
 
   //getmenu virker
-  public void getMenu() throws SQLException {
+  public synchronized void getMenu() throws SQLException {
     String SQL = "SELECT * FROM Sep3 . menu";
 
     Statement stmt = c.createStatement();
@@ -68,7 +68,7 @@ public class DatabaseConnection {
   }
 
   //sendmenu virker
-  public MenuObject sendMenu(int a) {
+  public synchronized MenuObject sendMenu(int a) {
     System.out.println("---");
     for (int y = 0; y < menu.size(); y++)
       System.out.println(menu.get(y).getFood());
@@ -77,7 +77,7 @@ public class DatabaseConnection {
   }
 
   //virker
-  public void getOrder(OrderObject ordo)
+  public synchronized void getOrder(OrderObject ordo)
   {
     orders.clear();
     orders.add(ordo);
@@ -101,22 +101,19 @@ public class DatabaseConnection {
         int row = preparedStatement.executeUpdate();
 
         // rows affected
-        System.out.println(row); //1
+        System.out.println("rows påvirket i databasetabel 'orders': "+row); //1
       }
     } catch (SQLException e) {
       System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-
   }
 
   //CONNECTED*****************************************************
   public synchronized void retrieveOrders() throws SQLException {
     String SQL = "SELECT * FROM orders";
     //for at se om der bliver tilføjet i listen når klient tilføjkr order
-    System.out.println("db.retrieveorders() triggerd af ny order fra kunde: size "+OTOCHEF.size());
     try (Connection conn = connectDB();
          Statement stmt = conn.createStatement();
          ResultSet rs = stmt.executeQuery(SQL)) {
@@ -126,7 +123,7 @@ public class DatabaseConnection {
       System.out.println(ex.getMessage());
     }
   }
-    private void displayO(ResultSet rs) throws SQLException {
+    private synchronized void displayO(ResultSet rs) throws SQLException {
     OTOCHEF.clear();
       while (rs.next()) {
         OrderObject otochef = new OrderObject();
@@ -141,13 +138,12 @@ public class DatabaseConnection {
         otochef.setAdr(convertByte(rs.getBytes("adr")));
         OTOCHEF.add(otochef);
       }
-      //System.out.println(OTOCHEF.size());
-      //System.out.println(OTOCHEF.get(5).getAdr());
+      System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
     }
     //CONNECTED******************************************************
 
 
-  public String convertByte(byte[] bytes){
+  public synchronized String convertByte(byte[] bytes){
       String s = new String(bytes, StandardCharsets.UTF_8);
       //System.out.println("Output : " + s);
       return s;
@@ -157,7 +153,7 @@ public class DatabaseConnection {
   public OrderObject sendOrder(int a) {
     System.out.println("---");
     for (int y = 0; y < OTOCHEF.size(); y++){
-      System.out.println(OTOCHEF.get(y).getAdr());
+      System.out.println(OTOCHEF.size());
     }
 
     //System.out.println("size of list holding orders2chef: "+OTOCHEF.size());
@@ -165,7 +161,7 @@ public class DatabaseConnection {
   }
 
   //
-  public int sendAmount() {
+  public synchronized int sendAmount() {
     System.out.println("size of list holding orders2chef: "+OTOCHEF.size());
     return OTOCHEF.size();
   }

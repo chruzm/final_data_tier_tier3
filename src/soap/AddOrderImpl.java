@@ -3,25 +3,14 @@ package soap;
 import Database.DatabaseConnection;
 import models.MenuObject;
 import models.OrderObject;
-import models.Tester;
 
 import javax.jws.WebService;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Random;
 
-@WebService(endpointInterface = "soap.ITest")
-public class AddOrderImpl implements ITest{
+@WebService(endpointInterface = "soap.Interface")
+public class AddOrderImpl implements Interface {
     private DatabaseConnection db = new DatabaseConnection();
-    @Override
-    public Tester getTester() {
-        return null;
-    }
-
-    @Override
-    public Tester addTester(Tester tst) {
-        return null;
-    }
 
     @Override
     public String getTestList() {
