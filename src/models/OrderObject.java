@@ -8,11 +8,13 @@ public class OrderObject {
     private int price;
     private String items;
     private String adr;
+    private String email;
+    private String phone;
 
     public OrderObject(){
     }
 
-    public OrderObject newOrder(int ordernumber, int price, String items, String adr){
+    public OrderObject newOrder(int ordernumber, int price, String items, String adr, String email, String phone){
         OrderObject neworder = new OrderObject();
         neworder.setOrdernumber(ordernumber);
         neworder.setPrice(price);
@@ -36,6 +38,14 @@ public class OrderObject {
     {
         this.adr = adr;
     }
+    public void setEmail( String email )
+    {
+        this.email = email;
+    }
+    public void setPhone( String phone )
+    {
+        this.phone = phone;
+    }
     public int getPrice()
     {
         return price;
@@ -52,12 +62,20 @@ public class OrderObject {
     {
         return adr;
     }
+    public String getEmail()
+    {
+        return email;
+    }
+    public String getPhone()
+    {
+        return phone;
+    }
     public String toJson()
     {
         return gson.toJson( this );
     }
-    public static MenuObject fromJson(String json )
+    public static OrderObject fromJson(String json )
     {
-        return gson.fromJson( json, MenuObject.class );
+        return gson.fromJson( json, OrderObject.class );
     }
 }

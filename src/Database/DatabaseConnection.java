@@ -85,7 +85,7 @@ public class DatabaseConnection {
 
   //works
   public synchronized void storeOrder() {
-    String SQL_INSERT = "INSERT INTO orders (ordernumber, price, foods, adr) VALUES (?,?,?,?)";
+    String SQL_INSERT = "INSERT INTO orders (ordernumber, price, foods, adr, email, tlf) VALUES (?,?,?,?,?,?)";
 
     try (Connection conn = DriverManager.getConnection(
             "jdbc:postgresql://localhost:5432/postgres", "postgres", "mxn88scrhder883");
@@ -96,6 +96,8 @@ public class DatabaseConnection {
         preparedStatement.setInt(2, orders.get(a).getPrice());
         preparedStatement.setBytes(3, orders.get(a).getItems().getBytes());
         preparedStatement.setBytes(4, orders.get(a).getAdr().getBytes());
+        preparedStatement.setBytes(5, orders.get(a).getEmail().getBytes());
+        preparedStatement.setBytes(6, orders.get(a).getPhone().getBytes());
 
 
         int row = preparedStatement.executeUpdate();
@@ -138,7 +140,7 @@ public class DatabaseConnection {
         otochef.setAdr(convertByte(rs.getBytes("adr")));
         OTOCHEF.add(otochef);
       }
-      System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
+      //System.out.println("db.retrieveorders() triggerd af launch/eller ny order fra kunde: size "+OTOCHEF.size()+" adresse af nyeste order: "+OTOCHEF.get(OTOCHEF.size()-1).getAdr());
     }
     //CONNECTED******************************************************
 

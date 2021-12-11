@@ -24,8 +24,9 @@ public class AddOrderImpl implements Interface {
 
     @Override
     public OrderObject addOrder(OrderObject o) {
+        /*
         Random number = new Random();
-        o.setOrdernumber(number.nextInt(100000)+1);
+        o.setOrdernumber(number.nextInt(100000)+1);*/
         System.out.println("adding order");
         //db.getOrder() tilføjer OrderObject O til listen af orders i databaseconnection class
         db.getOrder(o);
