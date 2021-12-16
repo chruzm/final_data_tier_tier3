@@ -2,6 +2,7 @@ package Database;
 
 import models.MenuObject;
 import models.OrderObject;
+import models.ReviewObject;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -16,6 +17,8 @@ public class DatabaseConnection {
   private static ArrayList<MenuObject> menu = new ArrayList<>();
   private static ArrayList<OrderObject> orders = new ArrayList<>();
   private static ArrayList<OrderObject> OTOCHEF = new ArrayList<>();
+  private static ArrayList<ReviewObject> rews = new ArrayList<>();
+  private static ArrayList<ReviewObject> reviews2client = new ArrayList<>();
   private OrderObject o = new OrderObject();
   private Connection c = null;
   private Statement stmt = null;
@@ -83,6 +86,13 @@ public class DatabaseConnection {
     orders.add(ordo);
   }
 
+  //virker
+  public synchronized void getReviews(ReviewObject rew)
+  {
+    rews.clear();
+    rews.add(rew);
+  }
+
   //works
   public synchronized void storeOrder() {
     String SQL_INSERT = "INSERT INTO orders (ordernumber, price, foods, adr, email, tlf) VALUES (?,?,?,?,?,?)";
@@ -98,6 +108,31 @@ public class DatabaseConnection {
         preparedStatement.setBytes(4, orders.get(a).getAdr().getBytes());
         preparedStatement.setBytes(5, orders.get(a).getEmail().getBytes());
         preparedStatement.setBytes(6, orders.get(a).getPhone().getBytes());
+
+
+        int row = preparedStatement.executeUpdate();
+
+        // rows affected
+        System.out.println("rows påvirket i databasetabel 'orders': "+row); //1
+      }
+    } catch (SQLException e) {
+      System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public synchronized void storeReview() {
+    String SQL_INSERT = "INSERT INTO reviews (id, name, review) VALUES (?,?,?)";
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/postgres", "postgres", "mxn88scrhder883");
+         PreparedStatement preparedStatement = conn.prepareStatement(SQL_INSERT)) {
+
+      for (int a = 0; a < rews.size(); a++) {
+        preparedStatement.setInt(1, rews.get(a).getId());
+        preparedStatement.setBytes(2, rews.get(a).getName().getBytes());
+        preparedStatement.setBytes(3, rews.get(a).getReview().getBytes());
 
 
         int row = preparedStatement.executeUpdate();

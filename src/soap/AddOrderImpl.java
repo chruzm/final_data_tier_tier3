@@ -3,6 +3,7 @@ package soap;
 import Database.DatabaseConnection;
 import models.MenuObject;
 import models.OrderObject;
+import models.ReviewObject;
 
 import javax.jws.WebService;
 import java.sql.SQLException;
@@ -24,9 +25,9 @@ public class AddOrderImpl implements Interface {
 
     @Override
     public OrderObject addOrder(OrderObject o) {
-        /*
+
         Random number = new Random();
-        o.setOrdernumber(number.nextInt(100000)+1);*/
+        o.setOrdernumber(number.nextInt(100000)+1);
         System.out.println("adding order");
         //db.getOrder() tilføjer OrderObject O til listen af orders i databaseconnection class
         db.getOrder(o);
@@ -46,6 +47,16 @@ public class AddOrderImpl implements Interface {
     @Override
     public int sendAmount() {
         return 0;
+    }
+
+    @Override
+    public ReviewObject sendReview(int a) {
+        return null;
+    }
+
+    @Override
+    public ReviewObject addReview(ReviewObject r) {
+        return null;
     }
 
     ;

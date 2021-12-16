@@ -3,6 +3,7 @@ package soap;
 import Database.DatabaseConnection;
 import models.MenuObject;
 import models.OrderObject;
+import models.ReviewObject;
 
 import javax.jws.WebService;
 
@@ -32,6 +33,16 @@ public class GetMenuImpl  implements Interface {
     @Override
     public int sendAmount() {
         return 0;
+    }
+
+    @Override
+    public ReviewObject sendReview(int a) {
+        return null;
+    }
+
+    @Override
+    public ReviewObject addReview(ReviewObject r) {
+        return null;
     }
 
     ;

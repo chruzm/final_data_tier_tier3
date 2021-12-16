@@ -6,7 +6,7 @@ import soap.*;
 import javax.xml.ws.Endpoint;
 import java.sql.SQLException;
 
-
+//
 public class RunServer {
     public static void main(String[] args) throws SQLException {
         DatabaseConnection db = new DatabaseConnection();
@@ -20,10 +20,13 @@ public class RunServer {
         //send order til chefen, og aomount til chefen
         Endpoint.publish("http://localhost:9990/ws/orders", new SendOrderImpl());
         Endpoint.publish("http://localhost:9990/ws/amount", new SendAmountImpl());
+        //modtag reviews fra klient
+        Endpoint.publish("http://localhost:9990/ws/re", new AddReviewImpl());
         System.out.println("serice: http://localhost:9990/ws/getmenu");
         System.out.println("serice:  http://localhost:9990/ws/addorder");
         System.out.println("serice: http://localhost:9990/ws/orders");
         System.out.println("serice: http://localhost:9990/ws/amount");
+        System.out.println("service: http://localhost:9990/ws/re");
         db.retrieveOrders();
         db.sendAmount();
 
